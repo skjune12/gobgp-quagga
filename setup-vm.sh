@@ -1,10 +1,17 @@
 #!/bin/sh
 
-apt-get update
-apt-get upgrade -y
-apt-get install -y build-essential traceroute
+echo "Install Dependencies"
+apt-get update -qq
+apt-get upgrade -qq -y
+apt-get install -qq -y \
+    build-essential \
+    quagga \
+    traceroute \
+    mtr \
+    bridge-utils
 
 # download go
+echo "Download Go"
 wget https://dl.google.com/go/go1.9.3.linux-amd64.tar.gz 2>/dev/null
 sudo tar -C /usr/local -xzf go1.9.3.linux-amd64.tar.gz
 echo 'export GOROOT=/usr/local/go' >> $HOME/.bashrc
@@ -12,6 +19,7 @@ echo 'export GOPATH=$HOME/.golang' >> $HOME/.bashrc
 echo 'export PATH=$GOPATH/bin:$GOROOT/bin:$PATH' >> $HOME/.bashrc
 
 # download gobgp
+echo "Download GoBGP"
 export GOROOT=/usr/local/go
 export GOPATH=/root/.golang
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
@@ -19,6 +27,14 @@ export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 go get github.com/osrg/gobgp/gobgpd
 go get github.com/osrg/gobgp/gobgp
 
+# configure zebra
+echo "Configure zebra (quagga)"
+sed -i 's/zebra=no/zebra=yes/g' /etc/quagga/daemons
+sed -i 's/bgpd=no/bgpd=yes/g' /etc/quagga/daemons   # not needed?
+cp /usr/share/doc/quagga/examples/zebra.conf.sample /etc/quagga/zebra.conf
+systemctl restart quagga
+
+echo "Install gobgp-completion.bash"
 wget https://raw.githubusercontent.com/osrg/gobgp/master/tools/completion/gobgp-completion.bash -P /root 2>/dev/null
 wget https://raw.githubusercontent.com/osrg/gobgp/master/tools/completion/gobgp-static-completion.bash -P /root 2>/dev/null
 wget https://raw.githubusercontent.com/osrg/gobgp/master/tools/completion/gobgp-dynamic-completion.bash -P /root 2>/dev/null
