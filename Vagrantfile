@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
     server.vm.network "private_network", ip: "10.10.0.1", netmask: "255.255.255.0", virtualbox__intnet: "gobgp"
 
     # run setup script
-    server.vm.provision "shell", privileged: true, path: "setup-vm.sh"
+    server.vm.provision "shell", privileged: true, path: "setup-router.sh"
 
     server.vm.synced_folder "./shared/rt1", "/root/shared"
     server.vm.synced_folder "./shared/scripts", "/root/scripts"
@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
     server.vm.network "private_network", ip: "10.10.0.2", netmask: "255.255.255.0", virtualbox__intnet: "gobgp"
 
     # run setup script
-    server.vm.provision "shell", privileged: true, path: "setup-vm.sh"
+    server.vm.provision "shell", privileged: true, path: "setup-router.sh"
 
     server.vm.synced_folder "./shared/rt2", "/root/shared"
     server.vm.synced_folder "./shared/scripts", "/root/scripts"
@@ -39,10 +39,22 @@ Vagrant.configure("2") do |config|
     server.vm.network "private_network", ip: "10.10.0.3", netmask: "255.255.255.0", virtualbox__intnet: "gobgp"
 
     # run setup script
-    server.vm.provision "shell", privileged: true, path: "setup-vm.sh"
+    server.vm.provision "shell", privileged: true, path: "setup-router.sh"
 
     server.vm.synced_folder "./shared/rt3", "/root/shared"
     server.vm.synced_folder "./shared/scripts", "/root/scripts"
   end
 
+  # route server
+  config.vm.define :server do |server|
+    server.vm.box = "ubuntu/xenial64"
+    server.vm.hostname = "server"
+
+    server.vm.network "private_network", ip: "10.10.0.10", netmask: "255.255.255.0", virtualbox__intnet: "gobgp"
+
+    # run setup script
+    server.vm.provision "shell", privileged: true, path: "setup-router.sh"
+
+    server.vm.synced_folder "./shared/server", "/root/shared"
+  end
 end

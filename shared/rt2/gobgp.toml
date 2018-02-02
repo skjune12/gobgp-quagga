@@ -16,3 +16,8 @@
   [neighbors.config]
     neighbor-address = "10.10.0.3"
     peer-as = 65003
+
+[[neighbors]]
+  [neighbors.config]
+    neighbor-address = "10.10.0.10"
+    peer-as = 65000

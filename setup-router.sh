@@ -27,6 +27,26 @@ export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 go get github.com/osrg/gobgp/gobgpd
 go get github.com/osrg/gobgp/gobgp
 
+# create /etc/systemd/system/gobgpd.service
+cat << EOF > /etc/systemd/system/gobdpd.service
+[Unit]
+Description=gobgpd
+After=network.target syslog.target
+
+[Service]
+Type=simple
+PermissionsStartOnly=yes
+User=root
+ExecStartPre=/sbin/setcap 'cap_net_bind_service=+ep' /root/.golang/bin/gobgpd
+ExecStart=/root/.golang/bin/gobgpd -f /root/shared/gobgp.toml
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reload
+
 # configure zebra
 echo "Configure zebra (quagga)"
 sed -i 's/zebra=no/zebra=yes/g' /etc/quagga/daemons
