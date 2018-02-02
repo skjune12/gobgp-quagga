@@ -28,7 +28,7 @@ go get github.com/osrg/gobgp/gobgpd
 go get github.com/osrg/gobgp/gobgp
 
 # create /etc/systemd/system/gobgpd.service
-cat << EOF > /etc/systemd/system/gobdpd.service
+cat << EOF > /etc/systemd/system/gobgpd.service
 [Unit]
 Description=gobgpd
 After=network.target syslog.target
