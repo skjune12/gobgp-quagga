@@ -46,6 +46,7 @@ ExecStop=/bin/kill -s TERM $MAINPID
 WantedBy=multi-user.target
 EOF
 systemctl daemon-reload
+systemctl restart gobgpd
 
 # configure zebra
 echo "Configure zebra (quagga)"
