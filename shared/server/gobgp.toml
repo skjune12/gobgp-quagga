@@ -6,22 +6,16 @@ router-id = "10.10.0.10"
   [neighbors.config]
     peer-as = 65001
     neighbor-address = "10.10.0.1"
-  [neighbors.route-server.config]
-    route-server-client = true
 
 [[neighbors]]
   [neighbors.config]
     peer-as = 65002
     neighbor-address = "10.10.0.2"
-  [neighbors.route-server.config]
-    route-server-client = true
 
 [[neighbors]]
   [neighbors.config]
     peer-as = 65003
     neighbor-address = "10.10.0.3"
-  [neighbors.route-server.config]
-    route-server-client = true
 
 [[rpki-servers]]
   [rpki-servers.config]
