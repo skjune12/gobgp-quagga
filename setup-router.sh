@@ -47,6 +47,7 @@ WantedBy=multi-user.target
 EOF
 systemctl daemon-reload
 systemctl restart gobgpd
+systemctl enable gobgpd
 
 # configure zebra
 echo "Configure zebra (quagga)"
