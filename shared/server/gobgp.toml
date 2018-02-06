@@ -6,18 +6,25 @@ router-id = "10.10.0.10"
   [neighbors.config]
     peer-as = 65001
     neighbor-address = "10.10.0.1"
+  [neighbors.route-server.config]
+    route-server-client = true
+  [neighbors.transport.config]
+    passive-mode = true
 
 [[neighbors]]
   [neighbors.config]
     peer-as = 65002
     neighbor-address = "10.10.0.2"
+  [neighbors.route-server.config]
+    route-server-client = true
+  [neighbors.transport.config]
+    passive-mode = true
 
 [[neighbors]]
   [neighbors.config]
     peer-as = 65003
     neighbor-address = "10.10.0.3"
-
-[[rpki-servers]]
-  [rpki-servers.config]
-    address = "210.173.170.254"
-    port = 323
+  [neighbors.route-server.config]
+    route-server-client = true
+  [neighbors.transport.config]
+    passive-mode = true
